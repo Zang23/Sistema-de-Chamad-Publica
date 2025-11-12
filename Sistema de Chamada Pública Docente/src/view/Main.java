@@ -11,10 +11,10 @@ public class Main {
 	public static void main(String[] args) {
 		
 		CursoArquivo arquivo = new CursoArquivo();
-		Curso curso2 = new Curso("185", "RH", "Curso_chato");
+		Curso curso3 = new Curso("123", "ADS", "O mais legal que tem");
 		
 		try {
-			arquivo.salvar(curso2);
+			arquivo.salvar(curso3);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
