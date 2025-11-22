@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -119,8 +120,71 @@ public class CursoArquivo implements IMantemArquivos{
 		}
 	}
 
-	public void atualizar(Object objeto) {
-		// TODO Auto-generated method stub
+	public void atualizar(String codLinha, String nomeEntidade, String novaLinha) throws Exception {
+
+		
+		String novoCaminho = caminhoArquivo + "/" + nomeEntidade;
+		File diretorio = new File(novoCaminho);
+		
+		if(!diretorio.exists()) {
+			JOptionPane.showMessageDialog(null, "Diretorio nao encontrado");
+		}else {
+			
+			File arquivo = new File(novoCaminho + "/" + nomeEntidade + ".csv");
+			
+			if(arquivo.exists()) {
+				
+				FileInputStream fluxo = new FileInputStream(arquivo);
+				InputStreamReader leitor =  new InputStreamReader(fluxo);
+				BufferedReader buffer = new BufferedReader(leitor);
+				
+				String linha = buffer.readLine();
+				Lista<String> lista = new Lista<String>();
+				boolean atualizado = false;
+				
+				while(linha != null) {
+
+					if(!atualizado && linha.equals(codLinha)) {
+						lista.addLast(novaLinha);
+						atualizado = true;
+					}else {
+						lista.addLast(linha);
+					}
+					
+					linha = buffer.readLine();
+					
+				}
+				
+				if(!atualizado) {
+					JOptionPane.showMessageDialog(null, "O " + nomeEntidade + " nao foi atualizado");
+				}
+				
+				buffer.close();
+				leitor.close();
+				fluxo.close();
+				
+				FileWriter arquivoSobrescrito = new FileWriter(arquivo, false);
+				BufferedWriter escritor = new BufferedWriter(arquivoSobrescrito);
+				
+				int tamanho = lista.size();
+				
+				for (int i = 0; i < tamanho; i++) {
+			        escritor.write(lista.get(i));
+			        escritor.newLine();
+			    }
+				
+				escritor.close();
+				arquivoSobrescrito.close();
+				
+				 JOptionPane.showMessageDialog(null, nomeEntidade + " atualizado com sucesso!");
+				 
+			}else {
+				JOptionPane.showMessageDialog(null, "Arquivo nao encontrado");
+			}
+			
+			
+		}
+		
 		
 	}
 	
