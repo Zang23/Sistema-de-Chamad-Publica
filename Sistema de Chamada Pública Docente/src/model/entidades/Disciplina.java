@@ -9,11 +9,9 @@ public class Disciplina {
 	private String horarioInicial;
 	private int qtdHorasDiarias;
 	private String codCurso; 	
-	private String codProcesso;
 	
 	
-	
-	public Disciplina(boolean status, String cod, String nome, String diaSemana, String horarioInicial, int qtdHorasDiarias, String codCurso, String codProcesso) {
+	public Disciplina(boolean status, String cod, String nome, String diaSemana, String horarioInicial, int qtdHorasDiarias, String codCurso) {
 		this.status = status;
 		this.cod = cod;
 		this.nome = nome;
@@ -21,7 +19,6 @@ public class Disciplina {
 		this.horarioInicial = horarioInicial;
 		this.qtdHorasDiarias = qtdHorasDiarias;
 		this.codCurso = codCurso;
-		this.codProcesso = codProcesso;
 	}
 
 
@@ -110,15 +107,7 @@ public class Disciplina {
 
 
 
-	public String getCodProcesso() {
-		return codProcesso;
-	}
-
-
-
-	public void setCodProcesso(String codProcesso) {
-		this.codProcesso = codProcesso;
-	}
+	
 	
 	
 	

@@ -1,30 +1,27 @@
 package model.arquivos;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
 
 import javax.swing.JOptionPane;
 
 import br.fatec.edu.Lista.Lista;
 import controller.CursoController;
-import model.entidades.Curso;
+import controller.ProfessorController;
+import model.entidades.Professor;
 
-public class CursoArquivo implements IMantemArquivos{
+public class ProfessorArquivo implements IMantemArquivos {
 
-	public CursoArquivo() {
+	public ProfessorArquivo() {
 		super();
 	}
-	
-	public void salvar(Curso curso, String nomeEntidade) throws IOException {
-		
+
+	public void salvar(Professor professor, String nomeEntidade) throws Exception {
 		
 		String novoCaminho = caminhoArquivo + "/" + nomeEntidade;
 		File diretorio = new File(novoCaminho);
@@ -33,30 +30,32 @@ public class CursoArquivo implements IMantemArquivos{
 			diretorio.mkdir();
 		}
 		
-		File arquivo = new File(novoCaminho,"cursos.csv");
+		File arquivo = new File(novoCaminho,"professor.csv");
 		FileWriter writer = new FileWriter(arquivo, true);
 		StringBuffer buffer = new StringBuffer();
 		
 		if(arquivo.exists() && arquivo.isFile()) {
 			
-			CursoController csc = new  CursoController();
+			ProfessorController prc = new  ProfessorController();
 			
-			if(csc.validaCurso(curso)) {
-				buffer.append(curso.getCod()).append(";");
-				buffer.append(curso.getNome()).append(";");
-				buffer.append(curso.getAreaConhecimento()).append("\r\n");
+			if(prc.validaProfessor(professor)) {
+				buffer.append(professor.getCpf()).append(";");
+				buffer.append(professor.getNome()).append(";");
+				buffer.append(professor.getArea()).append(";");
+				buffer.append(professor.getQtdPontos()).append("\r\n");
 				
 				writer.append(buffer.toString());
 			}else {
-				JOptionPane.showMessageDialog(null, "Curso invalido, verifique se ela possui um nome repetido\nou se o diretorio existe");
+				JOptionPane.showMessageDialog(null, "Professor invalido, verifique se ele possui um nome repetido\nou se o diretorio existe");
 			}
 			
 			writer.close();
 		}else {
 			arquivo.createNewFile();
-			buffer.append(curso.getCod()).append(";");
-			buffer.append(curso.getNome()).append(";");
-			buffer.append(curso.getAreaConhecimento()).append("\r\n");
+			buffer.append(professor.getCpf()).append(";");
+			buffer.append(professor.getNome()).append(";");
+			buffer.append(professor.getArea()).append(";");
+			buffer.append(professor.getQtdPontos()).append("\r\n");
 			
 			writer.write(buffer.toString());
 			writer.close();
@@ -64,10 +63,11 @@ public class CursoArquivo implements IMantemArquivos{
 		
 		
 	}
-
+		
+	
+	
 	@Override
-	public void remover(String codLinha, String nomeEntidade)throws Exception {
-
+	public void remover(String codLinha, String nomeEntidade) throws Exception {
 		
 		String novoCaminho = caminhoArquivo + "/" + nomeEntidade;
 		File diretorio = new File(novoCaminho);
@@ -87,8 +87,6 @@ public class CursoArquivo implements IMantemArquivos{
 				
 				Lista<String> lista = new Lista<String>();
 				boolean isApagado = false;
-				
-				
 				
 				while(linha != null) {
 					if(!isApagado && linha.equals(codLinha)) {
@@ -126,13 +124,12 @@ public class CursoArquivo implements IMantemArquivos{
 				JOptionPane.showMessageDialog(null, "Arquivo Nao encontrado");
 			}
 		}
+		
 	}
 
-	
 	@Override
 	public void atualizar(String codLinha, String nomeEntidade, String novaLinha) throws Exception {
 
-		
 		String novoCaminho = caminhoArquivo + "/" + nomeEntidade;
 		File diretorio = new File(novoCaminho);
 		
@@ -155,9 +152,9 @@ public class CursoArquivo implements IMantemArquivos{
 				while(linha != null) {
 
 					if(!atualizado && linha.equals(codLinha)) {
-						CursoController csc = new  CursoController();
+						ProfessorController prc = new  ProfessorController();
 						
-						if(csc.validaCurso(novaLinha)){
+						if(prc.validaProfessor(novaLinha)) {
 							lista.addLast(novaLinha);
 							atualizado = true;
 						}else {
@@ -203,10 +200,8 @@ public class CursoArquivo implements IMantemArquivos{
 			
 		}
 		
-		
 	}
-	
-	
+
 	@Override
 	public Lista<String> listar(String nomeEntidade) throws Exception {
 		
@@ -239,8 +234,8 @@ public class CursoArquivo implements IMantemArquivos{
 		}
 		
 		return lista;
-		
 	}
-
+	
+	
 	
 }
