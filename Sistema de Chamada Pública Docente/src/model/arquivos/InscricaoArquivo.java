@@ -1,30 +1,29 @@
 package model.arquivos;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
 
 import javax.swing.JOptionPane;
 
 import br.fatec.edu.Lista.Lista;
-import controller.CursoController;
-import model.entidades.Curso;
+import controller.InscricaoController;
+import controller.ProcessoController;
+import model.entidades.ProcessoSeletivo;
+import model.entidades.Professor;
 
-public class CursoArquivo implements IMantemArquivos{
+public class InscricaoArquivo implements IMantemArquivos{
 
-	public CursoArquivo() {
+	public InscricaoArquivo() {
 		super();
 	}
 	
-	public void salvar(Curso curso, String nomeEntidade) throws IOException {
-		
+	
+	public void salvar(ProcessoSeletivo processo, Professor professor, String nomeEntidade) throws Exception {
 		
 		String novoCaminho = caminhoArquivo + "/" + nomeEntidade;
 		File diretorio = new File(novoCaminho);
@@ -33,42 +32,41 @@ public class CursoArquivo implements IMantemArquivos{
 			diretorio.mkdir();
 		}
 		
-		File arquivo = new File(novoCaminho,"cursos.csv");
+		File arquivo = new File(novoCaminho,"processo.csv");
 		FileWriter writer = new FileWriter(arquivo, true);
 		StringBuffer buffer = new StringBuffer();
 		
 		if(arquivo.exists() && arquivo.isFile()) {
 			
-			CursoController csc = new  CursoController();
+			InscricaoController isc = new  InscricaoController();
 			
-			if(csc.validaCurso(curso)) {
-				buffer.append(curso.getCod()).append(";");
-				buffer.append(curso.getNome()).append(";");
-				buffer.append(curso.getAreaConhecimento()).append("\r\n");
+			if(isc.validaInscricao(processo)) {
+				buffer.append(professor.getCpf()).append(";");
+				buffer.append(processo.getCodDisciplina()).append(";");
+				buffer.append(processo.getCod()).append("\r\n");
 				
 				writer.append(buffer.toString());
 			}else {
-				JOptionPane.showMessageDialog(null, "Curso invalido, verifique se ela possui um nome repetido\nou se o diretorio existe");
+				JOptionPane.showMessageDialog(null, "Processo invalido, verifique se ele possui um nome repetido\nou se o diretorio existe");
 			}
 			
 			writer.close();
 		}else {
 			arquivo.createNewFile();
-			buffer.append(curso.getCod()).append(";");
-			buffer.append(curso.getNome()).append(";");
-			buffer.append(curso.getAreaConhecimento()).append("\r\n");
+			
+			buffer.append(professor.getCpf()).append(";");
+			buffer.append(processo.getCodDisciplina()).append(";");
+			buffer.append(processo.getCod()).append("\r\n");
 			
 			writer.write(buffer.toString());
 			writer.close();
 		}
 		
-		
 	}
 
 	@Override
-	public void remover(String codLinha, String nomeEntidade)throws Exception {
+	public void remover(String codLinha, String nomeEntidade) throws Exception {
 
-		
 		String novoCaminho = caminhoArquivo + "/" + nomeEntidade;
 		File diretorio = new File(novoCaminho);
 
@@ -87,8 +85,6 @@ public class CursoArquivo implements IMantemArquivos{
 				
 				Lista<String> lista = new Lista<String>();
 				boolean isApagado = false;
-				
-				
 				
 				while(linha != null) {
 					if(!isApagado && linha.equals(codLinha)) {
@@ -129,10 +125,10 @@ public class CursoArquivo implements IMantemArquivos{
 	}
 
 	
-	@Override
-	public void atualizar(String codLinha, String nomeEntidade, String novaLinha) throws Exception {
+	
+	
+	public void atualizar(String codLinha, String nomeEntidade, String novaLinha, ProcessoSeletivo processo) throws Exception {
 
-		
 		String novoCaminho = caminhoArquivo + "/" + nomeEntidade;
 		File diretorio = new File(novoCaminho);
 		
@@ -155,13 +151,13 @@ public class CursoArquivo implements IMantemArquivos{
 				while(linha != null) {
 
 					if(!atualizado && linha.equals(codLinha)) {
-						CursoController csc = new  CursoController();
+						InscricaoController isc = new  InscricaoController();
 						
-						if(csc.validaCurso(novaLinha)){
+						if(isc.validaInscricao(novaLinha, processo)){
 							lista.addLast(novaLinha);
 							atualizado = true;
 						}else {
-							JOptionPane.showMessageDialog(null, "Curso invalido, verifique se ele possui um nome repetido\nou se o diretorio existe");
+							JOptionPane.showMessageDialog(null, "Processo invalido, verifique se ele possui um nome repetido\nou se o diretorio existe");
 						}
 						
 					}else {
@@ -203,13 +199,11 @@ public class CursoArquivo implements IMantemArquivos{
 			
 		}
 		
-		
 	}
-	
-	
+
 	@Override
 	public Lista<String> listar(String nomeEntidade) throws Exception {
-		
+
 		String novoCaminho = caminhoArquivo + "/" + nomeEntidade;
 		File diretorio = new File(novoCaminho);
 		Lista<String> lista = new Lista<String>();
@@ -239,8 +233,13 @@ public class CursoArquivo implements IMantemArquivos{
 		}
 		
 		return lista;
-		
 	}
 
+
+	@Override
+	public void atualizar(String codLinha, String nomeEntidade, String novaLinha) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

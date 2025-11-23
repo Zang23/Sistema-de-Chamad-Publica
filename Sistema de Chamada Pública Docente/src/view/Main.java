@@ -13,7 +13,6 @@ public class Main {
 	public static void main(String[] args) {
 		
 		CursoArquivo arquivo = new CursoArquivo();
-		Curso curso3 = new Curso("ADS01", "ADS", "O mais legal que tem");
 		
 	
 		

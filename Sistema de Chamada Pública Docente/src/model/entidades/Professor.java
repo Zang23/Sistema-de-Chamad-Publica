@@ -4,10 +4,10 @@ public class Professor {
 
 	private String cpf;
 	private String nome;
-	private String area;
+	private AreaConhecimento area;
 	private int qtdPontos;
 	
-	public Professor(String cpf, String nome, String area, int qtdPontos) {
+	public Professor(String cpf, String nome, AreaConhecimento area, int qtdPontos) {
 		this.cpf = cpf;
 		this.nome = nome;
 		this.area = area;
@@ -30,11 +30,11 @@ public class Professor {
 		this.nome = nome;
 	}
 
-	public String getArea() {
+	public AreaConhecimento getArea() {
 		return area;
 	}
 
-	public void setArea(String area) {
+	public void setArea(AreaConhecimento area) {
 		this.area = area;
 	}
 

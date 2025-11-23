@@ -210,7 +210,7 @@ public class ProcessoArquivo implements IMantemArquivos {
 			JOptionPane.showMessageDialog(null, "Diretorio nao existe");		
 		}
 		
-		File arquivo = new File(caminhoArquivo,nomeEntidade + ".csv");
+		File arquivo = new File(novoCaminho,nomeEntidade + ".csv");
 		
 		if(arquivo.exists() && arquivo.isFile()) {
 			

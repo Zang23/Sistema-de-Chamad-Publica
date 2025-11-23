@@ -7,8 +7,10 @@ public class ProcessoSeletivo {
 	private boolean ativo;
 	
 	
-	public ProcessoSeletivo(String codProcesso, String codDisciplina, boolean ativo) {
-		this.cod = codProcesso;
+
+	public ProcessoSeletivo(String cod, String codDisciplina, boolean ativo) {
+		super();
+		this.cod = cod;
 		this.codDisciplina = codDisciplina;
 		this.ativo = ativo;
 	}
@@ -43,6 +45,8 @@ public class ProcessoSeletivo {
 		this.ativo = ativo;
 	}
 	
+	
+
 	
 	
 	

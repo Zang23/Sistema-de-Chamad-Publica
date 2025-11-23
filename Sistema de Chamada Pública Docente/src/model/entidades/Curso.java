@@ -4,9 +4,9 @@ public class Curso {
 
 	private String cod;
 	private String nome;
-	private String areaConhecimento;
+	private AreaConhecimento areaConhecimento;
 	
-	public Curso (String cod, String nome, String areaConhecimento) {
+	public Curso (String cod, String nome, AreaConhecimento areaConhecimento) {
 		this.cod = cod;
 		this.nome = nome;
 		this.areaConhecimento = areaConhecimento;
@@ -28,11 +28,11 @@ public class Curso {
 		this.nome = nome;
 	}
 
-	public String getAreaConhecimento() {
+	public AreaConhecimento getAreaConhecimento() {
 		return areaConhecimento;
 	}
 
-	public void setAreaConhecimento(String areaConhecimento) {
+	public void setAreaConhecimento(AreaConhecimento areaConhecimento) {
 		this.areaConhecimento = areaConhecimento;
 	}
 	

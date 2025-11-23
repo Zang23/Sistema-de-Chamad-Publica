@@ -5,6 +5,12 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
+import br.edu.fateczl.FilaGenerica.Fila;
+import controller.TelaController;
+import model.entidades.AreaConhecimento;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -18,7 +24,11 @@ import javax.swing.JList;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+
 import java.awt.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.BorderLayout;
 import javax.swing.JToolBar;
 import javax.swing.JSplitPane;
@@ -27,6 +37,8 @@ import javax.swing.JSplitPane;
 public class Tela extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	private JTable tabelaProfessores;
 	private JPanel contentPane;
 	private JTextField txtDiciplinaNome;
 	private JTextField txtDiciplinaCodigo;
@@ -41,6 +53,11 @@ public class Tela extends JFrame {
 	private JTextField textField;
 	private JTextField textField_1;
 	private JTextField textField_2;
+	
+	private String professorCPFSelecionado;
+	private boolean carregandoTabela = false;
+
+
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -225,6 +242,17 @@ public class Tela extends JFrame {
 		btnProfessorBuscar.setBounds(774, 194, 49, 24);
 		tabProfessor.add(btnProfessorBuscar);
 		
+		btnProfessorBuscar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String cpf = txtProfessorCPF.getText();
+				mostrarProfessorConsultado(cpf);
+				
+			}
+		});
+		
 		JLabel lblProfessorArea = new JLabel("Area");
 		lblProfessorArea.setForeground(Color.WHITE);
 		lblProfessorArea.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -249,17 +277,170 @@ public class Tela extends JFrame {
 		comboBoxProfessorArea.setBounds(604, 56, 113, 22);
 		tabProfessor.add(comboBoxProfessorArea);
 		
+		//populando o comboBox
+		for (AreaConhecimento area : AreaConhecimento.values()) {
+		    comboBoxProfessorArea.addItem(area.getDescricao());
+		}
+		
+		
 		JScrollPane scrollPaneProfessor = new JScrollPane();
 		scrollPaneProfessor.setBounds(39, 234, 783, 159);
 		tabProfessor.add(scrollPaneProfessor);
+
+		//Tabela
+		
+		String[] colunas = { "CPF", "Nome", "Área", "Pontos" }; //define as colunas
+		DefaultTableModel modelProfessor = new DefaultTableModel(colunas, 0);
+
+		tabelaProfessores = new JTable(modelProfessor);
+		scrollPaneProfessor.setViewportView(tabelaProfessores);
+		
+		carregarTabelaProfessores(tabelaProfessores);
+		
+		// Quando o usuário clicar em uma linha da tabela, salvar o CPF da linha
+		tabelaProfessores.getSelectionModel().addListSelectionListener(event -> {
+			 
+			
+			if (carregandoTabela) return;
+			
+			if (!event.getValueIsAdjusting()) {
+
+		        int linha = tabelaProfessores.getSelectedRow();
+		        
+		        if (linha != -1) {
+
+		            txtProfessorCPF.setText(tabelaProfessores.getValueAt(linha, 0).toString());
+		            txtProfessorNome.setText(tabelaProfessores.getValueAt(linha, 1).toString());
+		            txtProfessorQntdPontos.setText(tabelaProfessores.getValueAt(linha, 3).toString());
+		            
+		            // Pegando o CPF da coluna 0
+		            professorCPFSelecionado = tabelaProfessores.getValueAt(linha, 0).toString();
+		        }
+
+		      
+		      
+		    }
+		});
+
+		
+
 		
 		JButton btnProfessorLimparTela = new JButton("Limpar tela");
 		btnProfessorLimparTela.setBounds(507, 194, 112, 24);
 		tabProfessor.add(btnProfessorLimparTela);
 		
+		btnProfessorLimparTela.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				txtProfessorCPF.setText("");
+				txtProfessorNome.setText("");
+				txtProfessorQntdPontos.setText("");
+				comboBoxProfessorArea.setSelectedIndex(-1); // limpa a selecao
+				
+			}
+		});
+		
+		
 		JButton btnProfessorCadastrar = new JButton("Cadastrar");
 		btnProfessorCadastrar.setBounds(640, 194, 112, 24);
 		tabProfessor.add(btnProfessorCadastrar);
+		
+		
+		btnProfessorCadastrar.addActionListener(new ActionListener() { // Adicionando funcao ao botao
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				TelaController tlc = new TelaController();
+				
+				try {
+					//Cadastrar Professor
+					
+					tlc.cadastrarProfessor(
+							txtProfessorCPF.getText(),
+							txtProfessorNome.getText(),
+							(String) comboBoxProfessorArea.getSelectedItem(),
+							txtProfessorQntdPontos.getText()
+					);
+					
+					//Atualiza tabela
+					  Object[][] dados = tlc.carregarTabela("professor");
+			            tabelaProfessores.setModel(new javax.swing.table.DefaultTableModel(
+			                dados,
+			                new String[] { "CPF", "Nome", "Área", "Pontos" }
+			            ));
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		JButton btnProfessorExcluir = new JButton("Excluir");
+		btnProfessorExcluir.setBounds(374, 194, 112, 24);
+		tabProfessor.add(btnProfessorExcluir);
+
+		btnProfessorExcluir.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+
+		        if (professorCPFSelecionado == null) {
+		            JOptionPane.showMessageDialog(null, "Selecione um professor na tabela.");
+		            return;
+		        }
+
+		        try {
+		            TelaController tlc = new TelaController();
+		            tlc.excluir(professorCPFSelecionado, "professor");
+
+		            JOptionPane.showMessageDialog(null, "Professor removido com sucesso!");
+
+		            carregarTabelaProfessores(tabelaProfessores);
+		            professorCPFSelecionado = null;
+
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		            JOptionPane.showMessageDialog(null, "Erro ao remover professor.");
+		        }
+		    }
+		});
+		
+		JButton btnProfessorEditar = new JButton("Editar");
+		btnProfessorEditar.setBounds(241, 194, 112, 24);
+		tabProfessor.add(btnProfessorEditar);
+
+		btnProfessorEditar.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+
+		        if (professorCPFSelecionado == null) {
+		            JOptionPane.showMessageDialog(null, "Selecione um professor na tabela.");
+		            return;
+		        }
+
+		        try {
+		            TelaController tlc = new TelaController();
+
+		            tlc.atualizarProfessor(
+		                    professorCPFSelecionado,
+		                    txtProfessorNome.getText(),
+		                    comboBoxProfessorArea.getSelectedItem().toString(),
+		                    txtProfessorQntdPontos.getText()
+		            );
+
+		            JOptionPane.showMessageDialog(null, "Professor atualizado!");
+		            carregarTabelaProfessores(tabelaProfessores);
+		            professorCPFSelecionado = null;
+
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+
+
 		
 		JPanel tabCurso = new JPanel();
 		tabCurso.setBackground(new Color(49, 54, 63));
@@ -383,4 +564,52 @@ public class Tela extends JFrame {
 		tabInscricao.add(scrollPaneCurso_1);
 
 	}
+	
+	private void carregarTabelaProfessores(JTable tabelaProfessores) {
+	    try {
+	        TelaController tlc = new TelaController();
+
+	        Object[][] dados = tlc.carregarTabela("professor");
+
+	        DefaultTableModel model = (DefaultTableModel) tabelaProfessores.getModel();
+	        model.setRowCount(0); // limpa tabela
+
+	        for (Object[] linha : dados) {
+	            model.addRow(linha);
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	public void mostrarProfessorConsultado(String cpf) {
+	    try {
+	        Fila<String> fila = new Fila<String>();
+	        
+	        TelaController tlc = new TelaController();
+	        
+	        fila = tlc.consultar(cpf);
+
+	        DefaultTableModel model = (DefaultTableModel) tabelaProfessores.getModel();
+	        model.setRowCount(0); // limpa tabela
+
+	        while (!fila.isEmpty()) {
+	            String linha = fila.remove();
+	            String[] dados = linha.split(";");
+
+	            model.addRow(new Object[]{
+	                    dados[0],  // CPF
+	                    dados[1],  // Nome
+	                    dados[2],  // Área
+	                    dados[3]   // Pontos
+	            });
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+
+
 }

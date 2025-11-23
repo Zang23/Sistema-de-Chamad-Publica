@@ -45,6 +45,7 @@ public class ProfessorArquivo implements IMantemArquivos {
 				buffer.append(professor.getQtdPontos()).append("\r\n");
 				
 				writer.append(buffer.toString());
+				
 			}else {
 				JOptionPane.showMessageDialog(null, "Professor invalido, verifique se ele possui um nome repetido\nou se o diretorio existe");
 			}
@@ -89,8 +90,9 @@ public class ProfessorArquivo implements IMantemArquivos {
 				boolean isApagado = false;
 				
 				while(linha != null) {
-					if(!isApagado && linha.equals(codLinha)) {
-						JOptionPane.showMessageDialog(null, nomeEntidade + " foi removido");
+					
+					String[] vetLinha = linha.split(";");
+					if(!isApagado && vetLinha[0].equals(codLinha)) {
 						isApagado = true;
 					}else {
 						lista.addLast(linha);	
@@ -149,16 +151,21 @@ public class ProfessorArquivo implements IMantemArquivos {
 				Lista<String> lista = new Lista<String>();
 				boolean atualizado = false;
 				
+				
+				
+				
 				while(linha != null) {
-
-					if(!atualizado && linha.equals(codLinha)) {
+					
+					String[] vetLinha = linha.split(";");
+					
+					if(!atualizado && vetLinha[0].equals(codLinha)) {
 						ProfessorController prc = new  ProfessorController();
 						
-						if(prc.validaProfessor(novaLinha)) {
+						if(prc.validaProfessorAtualizacao(codLinha, novaLinha)) {
 							lista.addLast(novaLinha);
 							atualizado = true;
 						}else {
-							JOptionPane.showMessageDialog(null, "Curso invalido, verifique se ele possui um nome repetido\nou se o diretorio existe");
+							JOptionPane.showMessageDialog(null, "CPF já existe em outro professor. Atualização não permitida.");
 						}
 						
 					}else {
@@ -213,7 +220,7 @@ public class ProfessorArquivo implements IMantemArquivos {
 			JOptionPane.showMessageDialog(null, "Diretorio nao existe");		
 		}
 		
-		File arquivo = new File(caminhoArquivo,nomeEntidade + ".csv");
+		File arquivo = new File(novoCaminho,nomeEntidade + ".csv");
 		
 		if(arquivo.exists() && arquivo.isFile()) {
 			
