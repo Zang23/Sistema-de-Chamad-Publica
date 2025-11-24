@@ -14,6 +14,7 @@ import br.fatec.edu.Lista.Lista;
 import controller.CursoController;
 import controller.ProfessorController;
 import model.entidades.Professor;
+import br.edu.fateczl.ordenacao.*;
 
 public class ProfessorArquivo implements IMantemArquivos {
 

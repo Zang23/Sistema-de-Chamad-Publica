@@ -23,6 +23,8 @@ import model.entidades.Disciplina;
 import model.entidades.Inscricoes;
 import model.entidades.ProcessoSeletivo;
 import model.entidades.Professor;
+import br.edu.fateczl.ordenacao.Ordenacao;
+
 
 public class TelaController {
 
@@ -30,6 +32,7 @@ public class TelaController {
 	CursoArquivo arquivoCurso = new CursoArquivo();
 	InscricaoArquivo arquivoInscricao = new InscricaoArquivo();
 	DisciplinaArquivo arquivoDisciplina = new DisciplinaArquivo();
+	
 	
 	public TelaController() {
 		super();
@@ -146,7 +149,6 @@ public class TelaController {
 	    buffer.close();
 	    
 		return fila;
-		
 	}
 	
 	public Fila<String> consultarCurso(String cod) throws Exception {
@@ -403,7 +405,6 @@ public class TelaController {
 
 	
 
-	
 
 	
 	

@@ -1,38 +1,16 @@
 package view;
 
-import java.awt.EventQueue;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import br.edu.fateczl.FilaGenerica.Fila;
 import controller.TelaController;
 import model.entidades.AreaConhecimento;
-
-import javax.swing.JTabbedPane;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.Color;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
-import javax.swing.JTable;
-import javax.swing.JScrollBar;
-import javax.swing.JList;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-
-import java.awt.List;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.BorderLayout;
-import javax.swing.JToolBar;
-import javax.swing.JSplitPane;
-
 
 public class Tela extends JFrame {
 
@@ -54,17 +32,30 @@ public class Tela extends JFrame {
 	private JTextField txtProfessorQntdPontos;
 	private JTextField txtCursoCodigo;
 	private JTextField txtCursoNome;
+<<<<<<< HEAD
 	private JTextField txtInscricaoCPF;
 	private JTextField txtInscricaoCodDisciplina;
 	private JTextField txtInscricaoCodProcesso;
 	
+=======
+>>>>>>> branch 'master' of https://github.com/Zang23/Sistema-de-Chamad-Publica.git
 	
 	private String professorCPFSelecionado;
+<<<<<<< HEAD
 	private String cursoCodSelecionado;
 	private String inscricaoSelecionada;
 	
+=======
+	private String disciplinaCodSelecionado;
+	private String cursoCodSelecionado;
+>>>>>>> branch 'master' of https://github.com/Zang23/Sistema-de-Chamad-Publica.git
 	private boolean carregandoTabela = false;
+<<<<<<< HEAD
 	private boolean carregandoTabelaInscricao = false;
+=======
+	private JTable tabelaDisciplina;
+	private JTable tabelaCurso;
+>>>>>>> branch 'master' of https://github.com/Zang23/Sistema-de-Chamad-Publica.git
 
 
 	public static void main(String[] args) {
@@ -80,7 +71,7 @@ public class Tela extends JFrame {
 		});
 	}
 
-	// Criação das telas
+	// Criação da tela
 	
 	public Tela() {
 		
@@ -164,13 +155,13 @@ public class Tela extends JFrame {
 		txtDiciplinaNome.setColumns(10);
 		
 		txtDiciplinaCodigo = new JTextField();
-		txtDiciplinaCodigo.setBounds(251, 57, 61, 20);
+		txtDiciplinaCodigo.setBounds(195, 57, 61, 20);
 		txtDiciplinaCodigo.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtDiciplinaCodigo.setColumns(10);
 		tabDiciplina.add(txtDiciplinaCodigo);
 		
 		txtDiciplinaHorario = new JTextField();
-		txtDiciplinaHorario.setBounds(211, 125, 101, 20);
+		txtDiciplinaHorario.setBounds(211, 161, 101, 20);
 		txtDiciplinaHorario.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtDiciplinaHorario.setColumns(10);
 		tabDiciplina.add(txtDiciplinaHorario);
@@ -192,6 +183,7 @@ public class Tela extends JFrame {
 		comboBoxDiciplinaAulaDiaria.setFont(new Font("Arial", Font.PLAIN, 12));
 		tabDiciplina.add(comboBoxDiciplinaAulaDiaria);
 		
+<<<<<<< HEAD
 		String[] aulasDiarias = {"2", "4"};
 		
 		for(String dia: aulasDiarias) {
@@ -220,11 +212,18 @@ public class Tela extends JFrame {
 		statusDisciplina.addItem("Inativa");
 		statusDisciplina.setBounds(630, 130, 112, 23);
 		tabDiciplina.add(statusDisciplina);
+=======
+		JComboBox comboBoxDiciplinaDia = new JComboBox();
+		comboBoxDiciplinaDia.setBounds(211, 124, 101, 22);
+		comboBoxDiciplinaDia.setFont(new Font("Arial", Font.PLAIN, 12));
+		tabDiciplina.add(comboBoxDiciplinaDia);
+>>>>>>> branch 'master' of https://github.com/Zang23/Sistema-de-Chamad-Publica.git
 		
 		JButton btnDiciplinaBuscar = new JButton("🔎");
-		btnDiciplinaBuscar.setBounds(774, 194, 49, 24);
+		btnDiciplinaBuscar.setBounds(266, 55, 49, 24);
 		tabDiciplina.add(btnDiciplinaBuscar);
 		
+<<<<<<< HEAD
 		btnDiciplinaBuscar.addActionListener(new ActionListener() {
 			
 			@Override
@@ -243,8 +242,10 @@ public class Tela extends JFrame {
 		scrollPaneDiciplina.setBounds(39, 234, 783, 159);
 		tabDiciplina.add(scrollPaneDiciplina);
 		
+=======
+>>>>>>> branch 'master' of https://github.com/Zang23/Sistema-de-Chamad-Publica.git
 		JButton btnDiciplinaCadastrar = new JButton("Cadastrar");
-		btnDiciplinaCadastrar.setBounds(640, 194, 112, 24);
+		btnDiciplinaCadastrar.setBounds(446, 385, 112, 24);
 		tabDiciplina.add(btnDiciplinaCadastrar);
 		
 		btnDiciplinaCadastrar.addActionListener(new ActionListener() { // Adicionando funcao ao botao
@@ -281,9 +282,106 @@ public class Tela extends JFrame {
 		});
 		
 		JButton btnDiciplinaLimparTela = new JButton("Limpar tela");
-		btnDiciplinaLimparTela.setBounds(507, 194, 112, 24);
+		btnDiciplinaLimparTela.setBounds(288, 385, 112, 24);
 		tabDiciplina.add(btnDiciplinaLimparTela);
 		
+		// limpar a tela disciplina
+		btnDiciplinaLimparTela.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				txtDiciplinaCodigo.setText("");
+				txtDiciplinaNome.setText("");
+				txtDiciplinaCodigo.setText("");
+				txtDiciplinaHorario.setText("");
+				txtDiciplinaCodigoCurso.setText("");
+				txtDiciplinaCodigoProcesso.setText("");
+				comboBoxDiciplinaAulaDiaria.setSelectedIndex(-1); // limpa a selecao
+				comboBoxDiciplinaDia.setSelectedIndex(-1); // limpa a selecao
+				
+			}
+		});
+		
+		JScrollPane scrollPaneDisciplina = new JScrollPane();
+		scrollPaneDisciplina.setBounds(38, 215, 784, 159);
+		tabDiciplina.add(scrollPaneDisciplina);
+		
+		tabelaDisciplina = new JTable();
+		scrollPaneDisciplina.setViewportView(tabelaDisciplina);
+		tabelaDisciplina.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Código", "Nome", "Dia", "Horario", "Aula diaria", "Codigo do curso", "Código do processo"
+			}
+		));
+		tabelaDisciplina.setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		JButton btnDisciplinaEditar = new JButton("Editar");
+		btnDisciplinaEditar.setBounds(658, 184, 77, 24);
+		tabDiciplina.add(btnDisciplinaEditar);
+		
+		// editar disciplina
+		btnDisciplinaEditar.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+
+		        if (disciplinaCodSelecionado == null) {
+		            JOptionPane.showMessageDialog(null, "Selecione uma disciplina na tabela.");
+		            return;
+		        }
+
+		        try {
+		            TelaController tlc = new TelaController();
+
+		            tlc.atualizarProfessor( // arruma na controller
+		            		disciplinaCodSelecionado,
+		                    txtProfessorNome.getText(),
+		                    
+		                    txtProfessorQntdPontos.getText()
+		            );
+
+		            JOptionPane.showMessageDialog(null, "Disciplina atualizada!");
+		            carregarTabelaProfessores(tabelaProfessores); // não esquece de verificar aqui
+		            disciplinaCodSelecionado = null;
+
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+		
+		JButton btnDisciplinaExcluir = new JButton("Excluir");
+		btnDisciplinaExcluir.setBounds(745, 184, 77, 24);
+		tabDiciplina.add(btnDisciplinaExcluir);
+		// excluir
+		btnDisciplinaExcluir.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+
+		        if (professorCPFSelecionado == null) {
+		            JOptionPane.showMessageDialog(null, "Selecione uma disciplina na tabela.");
+		            return;
+		        }
+
+		        try {
+		            TelaController tlc = new TelaController();
+		            tlc.excluir(disciplinaCodSelecionado, "disciplina");
+
+		            JOptionPane.showMessageDialog(null, "Disciplina removida com sucesso!");
+
+		            carregarTabelaProfessores(tabelaDisciplina); // arruma aqui
+		            disciplinaCodSelecionado = null;
+
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		            JOptionPane.showMessageDialog(null, "Erro ao remover disciplina.");
+		        }
+		    }
+		});
+		
+		//Aba professor
 		JPanel tabProfessor = new JPanel();
 		tabProfessor.setForeground(new Color(0, 0, 0));
 		tabProfessor.setBackground(new Color(49, 54, 63));
@@ -301,7 +399,7 @@ public class Tela extends JFrame {
 		txtProfessorCPF = new JTextField();
 		txtProfessorCPF.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtProfessorCPF.setColumns(10);
-		txtProfessorCPF.setBounds(203, 57, 112, 20);
+		txtProfessorCPF.setBounds(144, 57, 112, 20);
 		tabProfessor.add(txtProfessorCPF);
 		
 		JLabel lblProfessorNome = new JLabel("Nome");
@@ -318,7 +416,7 @@ public class Tela extends JFrame {
 		tabProfessor.add(txtProfessorNome);
 		
 		JButton btnProfessorBuscar = new JButton("🔎");
-		btnProfessorBuscar.setBounds(774, 194, 49, 24);
+		btnProfessorBuscar.setBounds(266, 55, 49, 24);
 		tabProfessor.add(btnProfessorBuscar);
 		
 		btnProfessorBuscar.addActionListener(new ActionListener() {
@@ -363,7 +461,7 @@ public class Tela extends JFrame {
 		
 		
 		JScrollPane scrollPaneProfessor = new JScrollPane();
-		scrollPaneProfessor.setBounds(39, 234, 783, 159);
+		scrollPaneProfessor.setBounds(38, 215, 784, 159);
 		tabProfessor.add(scrollPaneProfessor);
 
 		//Tabela
@@ -405,7 +503,7 @@ public class Tela extends JFrame {
 
 		
 		JButton btnProfessorLimparTela = new JButton("Limpar tela");
-		btnProfessorLimparTela.setBounds(507, 194, 112, 24);
+		btnProfessorLimparTela.setBounds(288, 385, 112, 24);
 		tabProfessor.add(btnProfessorLimparTela);
 		
 		btnProfessorLimparTela.addActionListener(new ActionListener() {
@@ -423,7 +521,7 @@ public class Tela extends JFrame {
 		
 		
 		JButton btnProfessorCadastrar = new JButton("Cadastrar");
-		btnProfessorCadastrar.setBounds(640, 194, 112, 24);
+		btnProfessorCadastrar.setBounds(446, 385, 112, 24);
 		tabProfessor.add(btnProfessorCadastrar);
 		
 		
@@ -458,7 +556,7 @@ public class Tela extends JFrame {
 		});
 		
 		JButton btnProfessorExcluir = new JButton("Excluir");
-		btnProfessorExcluir.setBounds(374, 194, 112, 24);
+		btnProfessorExcluir.setBounds(745, 184, 77, 24);
 		tabProfessor.add(btnProfessorExcluir);
 
 		btnProfessorExcluir.addActionListener(new ActionListener() {
@@ -487,7 +585,7 @@ public class Tela extends JFrame {
 		});
 		
 		JButton btnProfessorEditar = new JButton("Editar");
-		btnProfessorEditar.setBounds(241, 194, 112, 24);
+		btnProfessorEditar.setBounds(658, 184, 77, 24);
 		tabProfessor.add(btnProfessorEditar);
 
 		btnProfessorEditar.addActionListener(new ActionListener() {
@@ -519,9 +617,14 @@ public class Tela extends JFrame {
 		    }
 		});
 
+<<<<<<< HEAD
 //######################################################## CURSO ###########################################################################//
 		
 		
+=======
+
+		// Aba curso
+>>>>>>> branch 'master' of https://github.com/Zang23/Sistema-de-Chamad-Publica.git
 		JPanel tabCurso = new JPanel();
 		tabCurso.setBackground(new Color(49, 54, 63));
 		tabbedPane.addTab("Curso", null, tabCurso, "Cadastro de curso");
@@ -539,11 +642,11 @@ public class Tela extends JFrame {
 		txtCursoCodigo = new JTextField();
 		txtCursoCodigo.setFont(new Font("Arial", Font.PLAIN, 12));
 		txtCursoCodigo.setColumns(10);
-		txtCursoCodigo.setBounds(231, 57, 72, 20);
+		txtCursoCodigo.setBounds(175, 57, 67, 20);
 		tabCurso.add(txtCursoCodigo);
 		
 		JButton btnCursoBuscar = new JButton("🔎");
-		btnCursoBuscar.setBounds(774, 194, 49, 24);
+		btnCursoBuscar.setBounds(254, 55, 49, 24);
 		tabCurso.add(btnCursoBuscar);
 		btnCursoBuscar.addActionListener(new ActionListener() {
 			
@@ -559,6 +662,18 @@ public class Tela extends JFrame {
 		});
 		
 		
+		
+		//buscar
+		btnCursoBuscar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String cod = txtCursoCodigo.getText();
+				mostrarCursoConsultado(cod);
+				
+			}
+		});
 		
 		JLabel lblCursoNome = new JLabel("Nome");
 		lblCursoNome.setForeground(Color.WHITE);
@@ -590,9 +705,10 @@ public class Tela extends JFrame {
 		}
 		
 		JButton btnCursoLimparTela = new JButton("Limpar tela");
-		btnCursoLimparTela.setBounds(507, 194, 112, 24);
+		btnCursoLimparTela.setBounds(288, 385, 112, 24);
 		tabCurso.add(btnCursoLimparTela);
 		
+<<<<<<< HEAD
 		btnCursoLimparTela.addActionListener(new ActionListener() {
 			
 			@Override
@@ -603,11 +719,27 @@ public class Tela extends JFrame {
 				comboBoxCursoArea.setSelectedIndex(-1); // limpa a selecao				
 			}
 		});
+=======
+		// limpar a tela do curso
+		btnCursoLimparTela.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				txtCursoCodigo.setText("");
+				txtCursoNome.setText("");
+				comboBoxCursoArea.setSelectedIndex(-1); // limpa a selecao
+				
+			}
+		});
+		
+>>>>>>> branch 'master' of https://github.com/Zang23/Sistema-de-Chamad-Publica.git
 		
 		JButton btnCursoCadastrar = new JButton("Cadastrar");
-		btnCursoCadastrar.setBounds(640, 194, 112, 24);
+		btnCursoCadastrar.setBounds(446, 385, 112, 24);
 		tabCurso.add(btnCursoCadastrar);
 		
+<<<<<<< HEAD
 		btnCursoCadastrar.addActionListener(new ActionListener() { // Adicionando funcao ao botao
 			
 			@Override
@@ -662,14 +794,43 @@ public class Tela extends JFrame {
 		        } catch (Exception ex) {
 		            ex.printStackTrace();
 		            JOptionPane.showMessageDialog(null, "Erro ao remover curso.");
+=======
+		JButton btnCursoExcluir = new JButton("Excluir");
+		btnCursoExcluir.setBounds(745, 184, 77, 24);
+		tabCurso.add(btnCursoExcluir);
+		
+		// esxcluir curso
+		btnCursoExcluir.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+
+		        if (cursoCodSelecionado == null) {
+		            JOptionPane.showMessageDialog(null, "Selecione uma disciplina na tabela.");
+		            return;
+		        }
+
+		        try {
+		            TelaController tlc = new TelaController();
+		            tlc.excluir(cursoCodSelecionado, "curso");
+
+		            JOptionPane.showMessageDialog(null, "Curso removido com sucesso!");
+
+		            carregarTabelaProfessores(tabelaProfessores); // arruma aqui
+		            cursoCodSelecionado = null;
+
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		            JOptionPane.showMessageDialog(null, "Erro ao remover o curso.");
+>>>>>>> branch 'master' of https://github.com/Zang23/Sistema-de-Chamad-Publica.git
 		        }
 		    }
 		});
 		
 		JScrollPane scrollPaneCurso = new JScrollPane();
-		scrollPaneCurso.setBounds(39, 234, 783, 159);
+		scrollPaneCurso.setBounds(38, 215, 784, 159);
 		tabCurso.add(scrollPaneCurso);
 		
+<<<<<<< HEAD
 		String[] colunasCurso = { "Codigo", "Nome", "Área"}; //define as colunas
 		DefaultTableModel modelCurso = new DefaultTableModel(colunasCurso, 0);
 
@@ -743,14 +904,24 @@ public class Tela extends JFrame {
 		tabbedPane.addTab("Inscrição ", null, tabInscricao, "Inscrição em processo seletivo");
 		tabbedPane.setBackgroundAt(3, new Color(128, 128, 128));
 		tabInscricao.setLayout(null);
+=======
+		tabelaCurso = new JTable();
+		tabelaCurso.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Código", "Nome", "Area"
+			}
+		));
+		tabelaCurso.setFont(new Font("Arial", Font.PLAIN, 12));
+		scrollPaneCurso.setViewportView(tabelaCurso);
+>>>>>>> branch 'master' of https://github.com/Zang23/Sistema-de-Chamad-Publica.git
 		
-		JLabel lblInscricaoCpfProfessor = new JLabel("CPF do professor");
-		lblInscricaoCpfProfessor.setForeground(Color.WHITE);
-		lblInscricaoCpfProfessor.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblInscricaoCpfProfessor.setBackground(Color.WHITE);
-		lblInscricaoCpfProfessor.setBounds(73, 50, 112, 34);
-		tabInscricao.add(lblInscricaoCpfProfessor);
+		JButton btnCursoEditar = new JButton("Editar");
+		btnCursoEditar.setBounds(658, 184, 77, 24);
+		tabCurso.add(btnCursoEditar);
 		
+<<<<<<< HEAD
 		JLabel lblInscricaoCodDiciplina = new JLabel("Código da diciplina");
 		lblInscricaoCodDiciplina.setForeground(Color.WHITE);
 		lblInscricaoCodDiciplina.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -892,9 +1063,44 @@ public class Tela extends JFrame {
 		JScrollPane scrollPaneCurso_1 = new JScrollPane();
 		scrollPaneCurso_1.setBounds(39, 234, 783, 159);
 		tabInscricao.add(scrollPaneCurso_1);
+=======
+		// editar curso
+		btnCursoEditar.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+
+		        if (cursoCodSelecionado == null) {
+		            JOptionPane.showMessageDialog(null, "Selecione um curso na tabela.");
+		            return;
+		        }
+
+		        try {
+		            TelaController tlc = new TelaController();
+		            
+// precisa fazer essa parte na controller
+		            tlc.atualizarProfessor(
+		            		cursoCodSelecionado,
+		                    txtProfessorNome.getText(),
+		                    comboBoxProfessorArea.getSelectedItem().toString(),
+		                    txtProfessorQntdPontos.getText()
+		            );
+
+		            JOptionPane.showMessageDialog(null, " Curso atualizado!");
+		            carregarTabelaProfessores(tabelaCurso); //arruma isso aqui pfvrrr, quase surtei com isso
+		            cursoCodSelecionado = null;
+
+		        } catch (Exception ex) {
+		        	
+		        	
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+>>>>>>> branch 'master' of https://github.com/Zang23/Sistema-de-Chamad-Publica.git
 
 	}
 	
+	// funções complementares
 	private void carregarTabelaProfessores(JTable tabelaProfessores) {
 	    try {
 	        TelaController tlc = new TelaController();
@@ -987,6 +1193,7 @@ public class Tela extends JFrame {
 	    }
 	}
 	
+<<<<<<< HEAD
 	private void mostrarCursoConsultado(String cod) {
 		try {
 	        Fila<String> fila = new Fila<String>();
@@ -1077,6 +1284,33 @@ public class Tela extends JFrame {
 	        e.printStackTrace();
 	    }
 		
+	public void mostrarCursoConsultado(String cod) {
+	    try {
+	        Fila<String> fila = new Fila<String>();
+	        
+	        TelaController tlc = new TelaController();
+	        
+	        fila = tlc.consultar(cod);
+
+	        DefaultTableModel model = (DefaultTableModel) tabelaCurso.getModel();
+	        model.setRowCount(0); // limpa tabela
+
+	        while (!fila.isEmpty()) {
+	            String linha = fila.remove();
+	            String[] dados = linha.split(";");
+	            
+// arruma aqui
+	            model.addRow(new Object[]{
+	                    dados[0],  // CPF
+	                    dados[1],  // Nome
+	                    dados[2],  // Área
+	            });
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+>>>>>>> branch 'master' of https://github.com/Zang23/Sistema-de-Chamad-Publica.git
 	}
 
 

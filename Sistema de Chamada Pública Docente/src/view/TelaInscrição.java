@@ -1,7 +1,13 @@
+<<<<<<< HEAD
 package view;
 
 import java.awt.*;
 
+=======
+ package view;
+
+import java.awt.*;
+>>>>>>> branch 'master' of https://github.com/Zang23/Sistema-de-Chamad-Publica.git
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
