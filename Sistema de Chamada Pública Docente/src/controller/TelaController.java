@@ -15,10 +15,13 @@ import br.fatec.edu.Lista.Lista;
 import model.arquivos.ProfessorArquivo;
 import model.entidades.AreaConhecimento;
 import model.entidades.Professor;
+import br.edu.fateczl.ordenacao.Ordenacao;
+
 
 public class TelaController {
 
 	ProfessorArquivo arquivoProf = new ProfessorArquivo();
+	
 	
 	public TelaController() {
 		super();
@@ -112,10 +115,8 @@ public class TelaController {
 	    buffer.close();
 	    
 		return fila;
-		
 	}
 
-	
 
 	
 	
