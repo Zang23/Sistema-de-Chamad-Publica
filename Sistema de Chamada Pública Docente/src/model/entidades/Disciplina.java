@@ -11,6 +11,10 @@ public class Disciplina {
 	private String codCurso; 	
 	
 	
+	public Disciplina() {
+		super();
+	}
+	
 	public Disciplina(boolean status, String cod, String nome, String diaSemana, String horarioInicial, int qtdHorasDiarias, String codCurso) {
 		this.status = status;
 		this.cod = cod;

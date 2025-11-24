@@ -91,8 +91,8 @@ public class CursoArquivo implements IMantemArquivos{
 				
 				
 				while(linha != null) {
-					if(!isApagado && linha.equals(codLinha)) {
-						JOptionPane.showMessageDialog(null, nomeEntidade + " foi removido");
+					String[] vetLinha = linha.split(";");
+					if(!isApagado && vetLinha[0].equals(codLinha)) {
 						isApagado = true;
 					}else {
 						lista.addLast(linha);	
@@ -152,9 +152,12 @@ public class CursoArquivo implements IMantemArquivos{
 				Lista<String> lista = new Lista<String>();
 				boolean atualizado = false;
 				
+				
+				
 				while(linha != null) {
 
-					if(!atualizado && linha.equals(codLinha)) {
+					String[] vetLinha = linha.split(";");
+					if(!atualizado && vetLinha[0].equals(codLinha)) {
 						CursoController csc = new  CursoController();
 						
 						if(csc.validaCurso(novaLinha)){

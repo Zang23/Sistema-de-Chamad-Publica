@@ -8,5 +8,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="lib/Lista.jar"/>
 	<classpathentry kind="lib" path="lib/Fila.jar"/>
+	<classpathentry kind="lib" path="lib/Ordenacao.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

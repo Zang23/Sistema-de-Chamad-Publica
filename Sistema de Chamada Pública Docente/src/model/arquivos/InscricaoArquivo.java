@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import br.fatec.edu.Lista.Lista;
 import controller.InscricaoController;
 import controller.ProcessoController;
+import model.entidades.Inscricoes;
 import model.entidades.ProcessoSeletivo;
 import model.entidades.Professor;
 
@@ -23,7 +24,7 @@ public class InscricaoArquivo implements IMantemArquivos{
 	}
 	
 	
-	public void salvar(ProcessoSeletivo processo, Professor professor, String nomeEntidade) throws Exception {
+	public void salvar(ProcessoSeletivo processo, Inscricoes professor, String nomeEntidade) throws Exception {
 		
 		String novoCaminho = caminhoArquivo + "/" + nomeEntidade;
 		File diretorio = new File(novoCaminho);
@@ -41,7 +42,7 @@ public class InscricaoArquivo implements IMantemArquivos{
 			InscricaoController isc = new  InscricaoController();
 			
 			if(isc.validaInscricao(processo)) {
-				buffer.append(professor.getCpf()).append(";");
+				buffer.append(professor.getCpfProfessor()).append(";");
 				buffer.append(processo.getCodDisciplina()).append(";");
 				buffer.append(processo.getCod()).append("\r\n");
 				
@@ -54,7 +55,7 @@ public class InscricaoArquivo implements IMantemArquivos{
 		}else {
 			arquivo.createNewFile();
 			
-			buffer.append(professor.getCpf()).append(";");
+			buffer.append(professor.getCpfProfessor()).append(";");
 			buffer.append(processo.getCodDisciplina()).append(";");
 			buffer.append(processo.getCod()).append("\r\n");
 			
@@ -87,8 +88,8 @@ public class InscricaoArquivo implements IMantemArquivos{
 				boolean isApagado = false;
 				
 				while(linha != null) {
-					if(!isApagado && linha.equals(codLinha)) {
-						JOptionPane.showMessageDialog(null, nomeEntidade + " foi removido");
+					String[] vetLinha = linha.split(";");
+					if(!isApagado && vetLinha[0].equals(codLinha)) {
 						isApagado = true;
 					}else {
 						lista.addLast(linha);	
@@ -150,7 +151,8 @@ public class InscricaoArquivo implements IMantemArquivos{
 				
 				while(linha != null) {
 
-					if(!atualizado && linha.equals(codLinha)) {
+					String[] vetLinha = linha.split(";");
+					if(!atualizado && vetLinha[0].equals(codLinha)) {
 						InscricaoController isc = new  InscricaoController();
 						
 						if(isc.validaInscricao(novaLinha, processo)){

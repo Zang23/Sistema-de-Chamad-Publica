@@ -6,7 +6,9 @@ public class ProcessoSeletivo {
 	private String codDisciplina;
 	private boolean ativo;
 	
-	
+	public ProcessoSeletivo() {
+		super();
+	}
 
 	public ProcessoSeletivo(String cod, String codDisciplina, boolean ativo) {
 		super();

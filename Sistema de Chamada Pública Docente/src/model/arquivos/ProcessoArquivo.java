@@ -85,8 +85,8 @@ public class ProcessoArquivo implements IMantemArquivos {
 				boolean isApagado = false;
 				
 				while(linha != null) {
-					if(!isApagado && linha.equals(codLinha)) {
-						JOptionPane.showMessageDialog(null, nomeEntidade + " foi removido");
+					String[] vetLinha = linha.split(";");
+					if(!isApagado && vetLinha[0].equals(codLinha)) {
 						isApagado = true;
 					}else {
 						lista.addLast(linha);	
@@ -147,7 +147,8 @@ public class ProcessoArquivo implements IMantemArquivos {
 				
 				while(linha != null) {
 
-					if(!atualizado && linha.equals(codLinha)) {
+					String[] vetLinha = linha.split(";");
+					if(!atualizado && vetLinha[0].equals(codLinha)) {
 						ProcessoController prc = new  ProcessoController();
 						
 						if(prc.validaProcesso(novaLinha)){

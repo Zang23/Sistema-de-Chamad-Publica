@@ -39,6 +39,10 @@ public class Tela extends JFrame {
 	private static final long serialVersionUID = 1L;
 	
 	private JTable tabelaProfessores;
+	private JTable tabelaCurso;
+	private JTable tabelaInscricao;
+	private JTable tabelaDiciplina;
+	
 	private JPanel contentPane;
 	private JTextField txtDiciplinaNome;
 	private JTextField txtDiciplinaCodigo;
@@ -50,13 +54,17 @@ public class Tela extends JFrame {
 	private JTextField txtProfessorQntdPontos;
 	private JTextField txtCursoCodigo;
 	private JTextField txtCursoNome;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField txtInscricaoCPF;
+	private JTextField txtInscricaoCodDisciplina;
+	private JTextField txtInscricaoCodProcesso;
+	
 	
 	private String professorCPFSelecionado;
+	private String cursoCodSelecionado;
+	private String inscricaoSelecionada;
+	
 	private boolean carregandoTabela = false;
-
+	private boolean carregandoTabelaInscricao = false;
 
 
 	public static void main(String[] args) {
@@ -143,11 +151,11 @@ public class Tela extends JFrame {
 		lblDiciplinaCodCurso.setFont(new Font("Arial", Font.PLAIN, 12));
 		tabDiciplina.add(lblDiciplinaCodCurso);
 		
-		JLabel lblDiciplinaCodProcesso = new JLabel("Código do processo");
-		lblDiciplinaCodProcesso.setBounds(507, 124, 128, 23);
-		lblDiciplinaCodProcesso.setForeground(new Color(255, 255, 255));
-		lblDiciplinaCodProcesso.setFont(new Font("Arial", Font.PLAIN, 12));
-		tabDiciplina.add(lblDiciplinaCodProcesso);
+//		JLabel lblDiciplinaCodProcesso = new JLabel("Código do processo");
+//		lblDiciplinaCodProcesso.setBounds(507, 124, 128, 23);
+//		lblDiciplinaCodProcesso.setForeground(new Color(255, 255, 255));
+//		lblDiciplinaCodProcesso.setFont(new Font("Arial", Font.PLAIN, 12));
+//		tabDiciplina.add(lblDiciplinaCodProcesso);
 		
 		txtDiciplinaNome = new JTextField();
 		txtDiciplinaNome.setBounds(132, 91, 180, 20);
@@ -173,25 +181,63 @@ public class Tela extends JFrame {
 		txtDiciplinaCodigoCurso.setColumns(10);
 		tabDiciplina.add(txtDiciplinaCodigoCurso);
 		
-		txtDiciplinaCodigoProcesso = new JTextField();
-		txtDiciplinaCodigoProcesso.setBounds(665, 125, 77, 20);
-		txtDiciplinaCodigoProcesso.setFont(new Font("Arial", Font.PLAIN, 12));
-		txtDiciplinaCodigoProcesso.setColumns(10);
-		tabDiciplina.add(txtDiciplinaCodigoProcesso);
+//		txtDiciplinaCodigoProcesso = new JTextField();
+//		txtDiciplinaCodigoProcesso.setBounds(665, 125, 77, 20);
+//		txtDiciplinaCodigoProcesso.setFont(new Font("Arial", Font.PLAIN, 12));
+//		txtDiciplinaCodigoProcesso.setColumns(10);
+//		tabDiciplina.add(txtDiciplinaCodigoProcesso);
 		
 		JComboBox comboBoxDiciplinaAulaDiaria = new JComboBox();
 		comboBoxDiciplinaAulaDiaria.setBounds(665, 56, 77, 22);
 		comboBoxDiciplinaAulaDiaria.setFont(new Font("Arial", Font.PLAIN, 12));
 		tabDiciplina.add(comboBoxDiciplinaAulaDiaria);
 		
-		JComboBox comboBoxDiciplinaDia = new JComboBox();
-		comboBoxDiciplinaDia.setBounds(211, 160, 101, 22);
-		comboBoxDiciplinaDia.setFont(new Font("Arial", Font.PLAIN, 12));
-		tabDiciplina.add(comboBoxDiciplinaDia);
+		String[] aulasDiarias = {"2", "4"};
+		
+		for(String dia: aulasDiarias) {
+			comboBoxDiciplinaAulaDiaria.addItem(dia);
+		}
+		
+		
+		String[] horas = {"08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00",
+				"16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00", "00:00"};
+		
+		JComboBox comboBoxHorario = new JComboBox();
+		comboBoxHorario.setBounds(211, 160, 101, 22);
+		comboBoxHorario.setFont(new Font("Arial", Font.PLAIN, 12));
+		tabDiciplina.add(comboBoxHorario);
+		
+		for(String hora : horas) {
+			comboBoxHorario.addItem(hora);
+		}
+		
+		JLabel lblStatusDisciplina = new JLabel("Status:");
+		lblStatusDisciplina.setBounds(20, 160, 100, 25);
+		tabDiciplina.add(lblStatusDisciplina);
+
+		JComboBox<String> statusDisciplina = new JComboBox<>();
+		statusDisciplina.addItem("Ativa");
+		statusDisciplina.addItem("Inativa");
+		statusDisciplina.setBounds(630, 130, 112, 23);
+		tabDiciplina.add(statusDisciplina);
 		
 		JButton btnDiciplinaBuscar = new JButton("🔎");
 		btnDiciplinaBuscar.setBounds(774, 194, 49, 24);
 		tabDiciplina.add(btnDiciplinaBuscar);
+		
+		btnDiciplinaBuscar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String cod = txtProfessorCPF.getText();
+				mostrarDiciplinaConsultada(cod);
+				
+			}
+
+			
+		});
+		
 		
 		JScrollPane scrollPaneDiciplina = new JScrollPane();
 		scrollPaneDiciplina.setBounds(39, 234, 783, 159);
@@ -200,6 +246,39 @@ public class Tela extends JFrame {
 		JButton btnDiciplinaCadastrar = new JButton("Cadastrar");
 		btnDiciplinaCadastrar.setBounds(640, 194, 112, 24);
 		tabDiciplina.add(btnDiciplinaCadastrar);
+		
+		btnDiciplinaCadastrar.addActionListener(new ActionListener() { // Adicionando funcao ao botao
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				TelaController tlc = new TelaController();
+				
+				try {
+					//Cadastrar Professor
+					
+					tlc.cadastrarDiciplina(
+							txtDiciplinaCodigo.getText(),
+							txtDiciplinaNome.getText(),
+							txtDiciplinaHorario.getText(),
+							(String) comboBoxHorario.getSelectedItem(),
+							(String) comboBoxDiciplinaAulaDiaria.getSelectedItem(),
+							txtDiciplinaCodigoCurso.getText(), 
+							(String) statusDisciplina.getSelectedItem()
+					);
+					
+					//Atualiza tabela
+					  Object[][] dados = tlc.carregarTabelaProfessor("professor");
+			            tabelaProfessores.setModel(new javax.swing.table.DefaultTableModel(
+			                dados,
+			                new String[] { "CPF", "Nome", "Área", "Pontos" }
+			            ));
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		
 		JButton btnDiciplinaLimparTela = new JButton("Limpar tela");
 		btnDiciplinaLimparTela.setBounds(507, 194, 112, 24);
@@ -366,7 +445,7 @@ public class Tela extends JFrame {
 					);
 					
 					//Atualiza tabela
-					  Object[][] dados = tlc.carregarTabela("professor");
+					  Object[][] dados = tlc.carregarTabelaProfessor("professor");
 			            tabelaProfessores.setModel(new javax.swing.table.DefaultTableModel(
 			                dados,
 			                new String[] { "CPF", "Nome", "Área", "Pontos" }
@@ -440,7 +519,8 @@ public class Tela extends JFrame {
 		    }
 		});
 
-
+//######################################################## CURSO ###########################################################################//
+		
 		
 		JPanel tabCurso = new JPanel();
 		tabCurso.setBackground(new Color(49, 54, 63));
@@ -465,6 +545,20 @@ public class Tela extends JFrame {
 		JButton btnCursoBuscar = new JButton("🔎");
 		btnCursoBuscar.setBounds(774, 194, 49, 24);
 		tabCurso.add(btnCursoBuscar);
+		btnCursoBuscar.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				String cod = txtCursoCodigo.getText();
+				mostrarCursoConsultado(cod);
+				
+			}
+
+			
+		});
+		
+		
 		
 		JLabel lblCursoNome = new JLabel("Nome");
 		lblCursoNome.setForeground(Color.WHITE);
@@ -490,17 +584,159 @@ public class Tela extends JFrame {
 		comboBoxCursoArea.setBounds(604, 56, 113, 22);
 		tabCurso.add(comboBoxCursoArea);
 		
+		//populando o comboBox
+		for (AreaConhecimento area : AreaConhecimento.values()) {
+		    comboBoxCursoArea.addItem(area.getDescricao());
+		}
+		
 		JButton btnCursoLimparTela = new JButton("Limpar tela");
 		btnCursoLimparTela.setBounds(507, 194, 112, 24);
 		tabCurso.add(btnCursoLimparTela);
+		
+		btnCursoLimparTela.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				txtCursoCodigo.setText("");
+				txtCursoNome.setText("");
+				comboBoxCursoArea.setSelectedIndex(-1); // limpa a selecao				
+			}
+		});
 		
 		JButton btnCursoCadastrar = new JButton("Cadastrar");
 		btnCursoCadastrar.setBounds(640, 194, 112, 24);
 		tabCurso.add(btnCursoCadastrar);
 		
+		btnCursoCadastrar.addActionListener(new ActionListener() { // Adicionando funcao ao botao
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				TelaController tlc = new TelaController();
+				
+				try {
+					//Cadastrar Professor
+					
+					tlc.cadastrarCurso(
+							txtCursoCodigo.getText(),
+							txtCursoNome.getText(),
+							(String) comboBoxCursoArea.getSelectedItem()
+					);
+					
+					//Atualiza tabela
+					  Object[][] dados = tlc.carregarTabelaCurso("cursos");
+			            tabelaCurso.setModel(new javax.swing.table.DefaultTableModel(
+			                dados,
+			                new String[] { "Codigo", "Nome", "Área"}
+			            ));
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+		});
+		
+		JButton btnCursoExcluir = new JButton("Excluir");
+		btnCursoExcluir.setBounds(374, 194, 112, 24);
+		tabCurso.add(btnCursoExcluir);
+
+		btnCursoExcluir.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+
+		        if (cursoCodSelecionado == null) {
+		            JOptionPane.showMessageDialog(null, "Selecione um curso na tabela.");
+		            return;
+		        }
+
+		        try {
+		            TelaController tlc = new TelaController();
+		            tlc.excluir(cursoCodSelecionado, "cursos");
+
+		            JOptionPane.showMessageDialog(null, "Curso removido com sucesso!");
+
+		            carregarTabelaCursos(tabelaCurso);
+		            cursoCodSelecionado = null;
+
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		            JOptionPane.showMessageDialog(null, "Erro ao remover curso.");
+		        }
+		    }
+		});
+		
 		JScrollPane scrollPaneCurso = new JScrollPane();
 		scrollPaneCurso.setBounds(39, 234, 783, 159);
 		tabCurso.add(scrollPaneCurso);
+		
+		String[] colunasCurso = { "Codigo", "Nome", "Área"}; //define as colunas
+		DefaultTableModel modelCurso = new DefaultTableModel(colunasCurso, 0);
+
+		tabelaCurso = new JTable(modelCurso);
+		scrollPaneCurso.setViewportView(tabelaCurso);
+		
+		carregarTabelaCursos(tabelaCurso);
+		
+		// Quando o usuário clicar em uma linha da tabela, salvar o CPF da linha
+		tabelaCurso.getSelectionModel().addListSelectionListener(event -> {
+			 
+			
+			if (carregandoTabela) return;
+			
+			if (!event.getValueIsAdjusting()) {
+
+		        int linha = tabelaCurso.getSelectedRow();
+		        
+		        if (linha != -1) {
+
+		            txtCursoCodigo.setText(tabelaCurso.getValueAt(linha, 0).toString());
+		            txtCursoNome.setText(tabelaCurso.getValueAt(linha, 1).toString());
+
+		            // Pegando o CPF da coluna 0
+		            cursoCodSelecionado = tabelaCurso.getValueAt(linha, 0).toString();
+		        }
+
+		      
+		      
+		    }
+		});
+		
+		JButton btnCursoEditar = new JButton("Editar");
+		btnCursoEditar.setBounds(241, 194, 112, 24);
+		tabCurso.add(btnCursoEditar);
+		
+		btnCursoEditar.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+
+		        if (cursoCodSelecionado == null) {
+		            JOptionPane.showMessageDialog(null, "Selecione um curso na tabela.");
+		            return;
+		        }
+
+		        try {
+		            TelaController tlc = new TelaController();
+
+		            tlc.atualizarCurso(
+		            		cursoCodSelecionado,
+		                txtCursoNome.getText(),
+		                comboBoxCursoArea.getSelectedItem().toString()
+		            );
+
+		            JOptionPane.showMessageDialog(null, "Curso atualizado!");
+		            carregarTabelaCursos(tabelaCurso);
+		            cursoCodSelecionado = null;
+
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+
+		
+		
+		
 		
 		JPanel tabInscricao = new JPanel();
 		tabInscricao.setBackground(new Color(49, 54, 63));
@@ -529,35 +765,129 @@ public class Tela extends JFrame {
 		lblInscricaoCodProcesso.setBounds(460, 50, 112, 34);
 		tabInscricao.add(lblInscricaoCodProcesso);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("Arial", Font.PLAIN, 12));
-		textField.setColumns(10);
-		textField.setBounds(227, 57, 72, 20);
-		tabInscricao.add(textField);
+		txtInscricaoCPF = new JTextField();
+		txtInscricaoCPF.setFont(new Font("Arial", Font.PLAIN, 12));
+		txtInscricaoCPF.setColumns(10);
+		txtInscricaoCPF.setBounds(227, 57, 72, 20);
+		tabInscricao.add(txtInscricaoCPF);
 		
-		textField_1 = new JTextField();
-		textField_1.setFont(new Font("Arial", Font.PLAIN, 12));
-		textField_1.setColumns(10);
-		textField_1.setBounds(227, 104, 72, 20);
-		tabInscricao.add(textField_1);
+		txtInscricaoCodDisciplina = new JTextField();
+		txtInscricaoCodDisciplina.setFont(new Font("Arial", Font.PLAIN, 12));
+		txtInscricaoCodDisciplina.setColumns(10);
+		txtInscricaoCodDisciplina.setBounds(227, 104, 72, 20);
+		tabInscricao.add(txtInscricaoCodDisciplina);
 		
-		textField_2 = new JTextField();
-		textField_2.setFont(new Font("Arial", Font.PLAIN, 12));
-		textField_2.setColumns(10);
-		textField_2.setBounds(610, 57, 72, 20);
-		tabInscricao.add(textField_2);
+		txtInscricaoCodProcesso = new JTextField();
+		txtInscricaoCodProcesso.setFont(new Font("Arial", Font.PLAIN, 12));
+		txtInscricaoCodProcesso.setColumns(10);
+		txtInscricaoCodProcesso.setBounds(610, 57, 72, 20);
+		tabInscricao.add(txtInscricaoCodProcesso);
 		
-		JButton btnCursoLimparTela_1 = new JButton("Limpar tela");
-		btnCursoLimparTela_1.setBounds(507, 194, 112, 24);
-		tabInscricao.add(btnCursoLimparTela_1);
+		JButton btnInscricaoLimparTela = new JButton("Limpar tela");
+		btnCursoLimparTela.setBounds(507, 194, 112, 24);
+		tabInscricao.add(btnCursoLimparTela	);
 		
-		JButton btnCursoCadastrar_1 = new JButton("Cadastrar");
-		btnCursoCadastrar_1.setBounds(640, 194, 112, 24);
-		tabInscricao.add(btnCursoCadastrar_1);
+		btnInscricaoLimparTela.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			txtInscricaoCPF.setText("");
+			txtInscricaoCodDisciplina.setText("");
+			txtInscricaoCodProcesso.setText("");
+			inscricaoSelecionada = null;
+			}
+			});
 		
-		JButton btnCursoBuscar_1 = new JButton("🔎");
-		btnCursoBuscar_1.setBounds(774, 194, 49, 24);
-		tabInscricao.add(btnCursoBuscar_1);
+		JButton btnInscricaoCadastrar= new JButton("Cadastrar");
+		btnInscricaoCadastrar.setBounds(640, 194, 112, 24);
+		tabInscricao.add(btnInscricaoCadastrar);
+		
+		btnInscricaoCadastrar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			try {
+			TelaController tlc = new TelaController();
+			tlc.cadastrarInscricao(
+			txtInscricaoCPF.getText(),
+			txtInscricaoCodDisciplina.getText(),
+			txtInscricaoCodProcesso.getText()
+			);
+
+
+			JOptionPane.showMessageDialog(null, "Inscrição cadastrada!");
+			carregarTabelaInscricao(tabelaInscricao);
+			inscricaoSelecionada = null;
+			} catch (Exception ex) {
+			ex.printStackTrace();
+			}
+			}
+			});
+		
+		JButton btnInscricaoBuscar = new JButton("🔎");
+		btnInscricaoBuscar.setBounds(774, 194, 49, 24);
+		tabInscricao.add(btnInscricaoBuscar);
+		
+		btnInscricaoBuscar.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+			String cod = txtInscricaoCodProcesso.getText();
+			mostrarInscricaoConsultada(cod);
+			}
+		});
+		
+		JButton btnInscricaoEditar = new JButton("Editar");
+		btnInscricaoEditar.setBounds(241, 194, 112, 24);
+		tabInscricao.add(btnInscricaoEditar);
+		
+		btnInscricaoEditar.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+
+		        String cpf = txtInscricaoCPF.getText();
+		        String codDisc = txtInscricaoCodDisciplina.getText();
+		        String codProcesso = txtInscricaoCodProcesso.getText();
+
+		        try {
+		            TelaController telaController = new TelaController();
+					telaController.atualizarInscricao(cpf, codDisc, codProcesso);
+		        } catch (Exception ex) {
+		            ex.printStackTrace();
+		        }
+		    }
+		});
+
+		
+		JButton btnInscricaoExcluir = new JButton("Excluir");
+		btnInscricaoExcluir.setBounds(374, 194, 112, 24);
+		tabInscricao.add(btnInscricaoExcluir);
+		
+		
+		btnInscricaoExcluir.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+
+
+			if (inscricaoSelecionada == null) {
+			JOptionPane.showMessageDialog(null, "Selecione uma inscrição na tabela.");
+			return;
+			}
+
+
+			try {
+			TelaController tlc = new TelaController();
+
+
+			tlc.excluir(inscricaoSelecionada, "inscricao");
+
+
+			JOptionPane.showMessageDialog(null, "Inscrição excluída!");
+			carregarTabelaInscricao(tabelaInscricao);
+			inscricaoSelecionada = null;
+
+
+			} catch (Exception ex) {
+			ex.printStackTrace();
+			}
+			}
+			});
 		
 		JScrollPane scrollPaneCurso_1 = new JScrollPane();
 		scrollPaneCurso_1.setBounds(39, 234, 783, 159);
@@ -569,7 +899,7 @@ public class Tela extends JFrame {
 	    try {
 	        TelaController tlc = new TelaController();
 
-	        Object[][] dados = tlc.carregarTabela("professor");
+	        Object[][] dados = tlc.carregarTabelaProfessor("professor");
 
 	        DefaultTableModel model = (DefaultTableModel) tabelaProfessores.getModel();
 	        model.setRowCount(0); // limpa tabela
@@ -582,6 +912,52 @@ public class Tela extends JFrame {
 	        e.printStackTrace();
 	    }
 	}
+	
+	private void carregarTabelaCursos(JTable tabelaCursos) {
+	    try {
+	        TelaController tlc = new TelaController();
+	        Object[][] dados = tlc.carregarTabelaCurso("cursos");
+
+	        DefaultTableModel model = (DefaultTableModel) tabelaCursos.getModel();
+	        model.setRowCount(0);
+
+	        for (Object[] linha : dados) {
+	            model.addRow(linha);
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	private void carregarTabelaInscricao(JTable tabela) {
+
+
+		try {
+		TelaController tlc = new TelaController();
+
+
+		Object[][] dados = tlc.carregarTabelaInscricao("inscricoes");
+
+
+		carregandoTabelaInscricao = true;
+		DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+		model.setRowCount(0);
+
+
+		for (Object[] linha : dados) {
+		model.addRow(linha);
+		}
+
+
+		} catch (Exception e) {
+		e.printStackTrace();
+		} finally {
+		carregandoTabelaInscricao = false;
+		}
+		}
+	
+
 	
 	public void mostrarProfessorConsultado(String cpf) {
 	    try {
@@ -610,6 +986,100 @@ public class Tela extends JFrame {
 	        e.printStackTrace();
 	    }
 	}
+	
+	private void mostrarCursoConsultado(String cod) {
+		try {
+	        Fila<String> fila = new Fila<String>();
+	        
+	        TelaController tlc = new TelaController();
+	        
+	        fila = tlc.consultarCurso(cod);
+
+	        DefaultTableModel model = (DefaultTableModel) tabelaCurso.getModel();
+	        model.setRowCount(0); // limpa tabela
+
+	        while (!fila.isEmpty()) {
+	            String linha = fila.remove();
+	            String[] dados = linha.split(";");
+
+	            model.addRow(new Object[]{
+	                    dados[0],  // Cod
+	                    dados[1],  // Nome
+	                    dados[2],  // Área
+	            });
+	            
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		
+	}
+	
+	private void mostrarInscricaoConsultada(String cod) {
+
+
+		try {
+		Fila<String> fila = new Fila<String>();
+		TelaController tlc = new TelaController();
+
+
+		fila = tlc.consultarInscricao(cod);
+
+
+		DefaultTableModel model = (DefaultTableModel) tabelaInscricao.getModel();
+		model.setRowCount(0);
+
+
+		while (!fila.isEmpty()) {
+		String linha = fila.remove();
+		String[] dados = linha.split(";");
+
+
+		model.addRow(new Object[]{
+		dados[0], // CPF
+		dados[1], // Cod Disciplina
+		dados[2] // Cod Processo
+		});
+		}
+
+
+		} catch (Exception e) {
+		e.printStackTrace();
+		}
+		}
+	
+	private void mostrarDiciplinaConsultada(String cod) {
+		
+		try {
+	        Fila<String> fila = new Fila<String>();
+	        
+	        TelaController tlc = new TelaController();
+	        
+	        fila = tlc.consultarDiciplina(cod);
+
+	        DefaultTableModel model = (DefaultTableModel) tabelaDiciplina.getModel();
+	        model.setRowCount(0); // limpa tabela
+
+	        while (!fila.isEmpty()) {
+	            String linha = fila.remove();
+	            String[] dados = linha.split(";");
+
+	            model.addRow(new Object[]{
+	                    dados[0],  // Cod
+	                    dados[1],  // Nome
+	                    dados[2],  // Área
+	            });
+	            
+	        }
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+		
+	}
 
 
 }
+
+
