@@ -1,13 +1,11 @@
-<<<<<<< HEAD
 package view;
 
 import java.awt.*;
 
-=======
+
  package view;
 
 import java.awt.*;
->>>>>>> branch 'master' of https://github.com/Zang23/Sistema-de-Chamad-Publica.git
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -16,7 +14,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import br.edu.fateczl.ordenacao.Ordenacao;
+import br.edu.fateczl.*;
 import br.fatec.edu.Lista.Lista;
 import controller.ProfessorController;
 import controller.TelaController;

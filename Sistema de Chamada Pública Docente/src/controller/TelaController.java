@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 import br.edu.fateczl.FilaGenerica.Fila;
 import br.fatec.edu.Lista.Lista;
@@ -246,23 +247,36 @@ public class TelaController {
 
 	
 
-	public Object[][] carregarTabelaInscricao(String nomeEntidade) throws Exception {
-		Lista<String> linhas = arquivoInscricao.listar(nomeEntidade);
-		
-		Object[][] dados = new Object[linhas.size()][3];
+	public Object[][] carregarTabelaDisciplina(String nomeEntidade) throws Exception {
+	    
+	    
+	    Lista<String> linhas = arquivoDisciplina.listar(nomeEntidade);
+	    
+	    Object[][] dados = new Object[linhas.size()][7];
 
 	    for (int i = 0; i < linhas.size(); i++) {
 	        String[] partes = linhas.get(i).split(";");
 	        
-	        dados[i][0] = partes[0]; // CPF
-	        dados[i][1] = partes[1]; // Cod disciplina
-	        dados[i][2] = partes[2]; // cod procecsso
+	        // Preenche as colunas na ordem da sua Tela
+	        // Cod;Nome;Dia;Hora;Qtd;CodCurso;Status
+	        
+	        dados[i][0] = partes[0]; // Código
+	        dados[i][1] = partes[1]; // Nome
+	        dados[i][2] = partes[2]; // Dia
+	        dados[i][3] = partes[3]; // Horário
+	        dados[i][4] = partes[4]; // Qtd Horas
+	        dados[i][5] = partes[5]; // Cód. Curso
+	        
+	        // Verificação de segurança caso a última coluna esteja vazia
+	        if (partes.length > 6) {
+	            dados[i][6] = partes[6]; // Status / Cód. Processo
+	        } else {
+	            dados[i][6] = "";
+	        }
 	    }
 
 	    return dados;
-		
 	}
-
 	public void atualizarInscricao(String cpf, String codDisc, String codProcesso) throws Exception {
 
 	    // 1. buscar processo no arquivo
